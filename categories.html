@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="A Tech gadgets and smartphone e-shop">
+        <title>Aithon</title>
+        <link rel="stylesheet" href="styles.css">
+        <script type="module" src="main.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav class="navigation">
+                <div class="menu">
+                    <button class="btn-menu">☰Menu</button> 
+                    <div class="menu-options"></div>
+                     <div class="menu-hidden-categories"></div>
+                </div>
+                
+                <p ><a class="logo" href="index.html">A<img class="cart-logo" src="high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
+                <div class="search-nav" >
+                    <input class="search-btn" type="text" placeholder="&#128269Discover" >
+                    <div class="search"></div>
+                </div>
+                <button type="submit" class="btn-submit">Search</button
+                <div class="right-side-nav">
+                    <p class="wishlist"> &#9825;</p>
+                    <p ><a class="cart">&#128722;</a></p>
+                    <p><a><img src="icons8-account-50.png" class="account" ></a></p>
+                </div>
+ 
+                
+            </nav>
+        </header>
+        <main>
+            <section class="seller"> 
+                <h1>Books</h1>
+                <h3>Immerse yourself into our finest collection of books</h3>
+
+                <div class="best-seller book">
+                    
+                </div>
+            </section>
+            <script type="module">
+                const urlParams = new URLSearchParams(window.location.search);
+                const category = urlParams.get('category');
+                const bookContainer = document.querySelector(".best-seller.book");
+                import { fetchBooks } from './apis.js';
+                
+                if (category === "books") {
+
+                    fetchBooks().then(data => {
+                        loadBooks(data);
+                    });
+
+                    
+
+                  /*  fetch('https://www.googleapis.com/books/v1/volumes?q=technology&maxResults=40&printType=books&key=AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fk')
+                        .then(res => res.json())
+                        .then(data=>{
+                        
+                           
+                        })*/
+
+                    function loadBooks(books){
+                        bookContainer.innerHTML="";
+                        
+                        const booksForSale = books?.items.filter(book => book.saleInfo && book.saleInfo.saleability === "FOR_SALE");
+                        booksForSale.forEach(book => {
+                            
+                            bookContainer.innerHTML+=`
+                            <figure class="product-card" data-id="${book.id}">
+                            <img class="product-img" src="${book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image.jpg'}">
+                            <p class="device-name brand author">${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'}</p>
+                            <p class="device-name">${book.volumeInfo.title}</p>
+                            <p class="price">$${book.saleInfo && book.saleInfo.listPrice ? book.saleInfo.listPrice.amount + ' ' + book.saleInfo.listPrice.currencyCode : 'Price not available'}</p>
+                        </figure>
+                        `;
+                    })};
+
+
+                    
+                } else if (category === "smartphones") {
+                    bookContainer.innerHTML=''
+                    bookContainer.innerHTML='<h1>I am sorry the page you requested is empty at the moment!</h1>'
+                }
+
+                bookContainer.addEventListener('click', (event) => {
+                const card = event.target.closest('.product-card');
+                if (card) {
+                    const id = card.dataset.id;
+                    window.location.href = `product.html?id=${id}`;
+                }
+                });
+
+            </script>
+
+
+            
+
+        </main>
+            <footer class="footer" >
+                <div class="address">
+                <h3>Address</h3>
+                <address>
+                    Kavros,Chania 23<br>
+                    Crete Greece
+                </address>
+                
+            </div>
+                <div class="">
+                    <h3>Aithon</h3>
+                    <p><a>Who are we</a></p>
+                    <p><a>Jobs</a></p>
+                </div>
+                <div class="contact">
+                    <h3>Contact us</h3>
+                    <p><a href="mailto:keidimc3@gmail.com">Email us</a></p>
+                    <p><a href="tel:+306974577455">Phone: +30 697 457 7455</a></p>
+                </div>
+                <div class="account">
+                    <h3>Account</h3>
+                    <p><a>Sign up</a></p>
+                    <p><a>Log in</a></p>
+                </div>
+
+
+            </footer>
+        </main>
+        <script src="marketplace.js" ></script>
+    </body>
+</html>
