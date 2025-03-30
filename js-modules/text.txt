@@ -1,0 +1,770 @@
+main.js
+import { searchResults }from './search.js'
+import { menuAndOptions } from './menu.js';
+//import { login,checkAdminStatus } from './login.js';
+import { viewProducts }from './previewProducts.js';
+import { cart } from './cart.js';
+import { fetchMarketplaceProducts,fetchBooks } from './apis.js';
+import { wishList } from './wishlist.js';
+import { hardCodedProducts }from './listOfProducts.js';
+//import { categories } from './categories.js';
+import { testTiming } from './test.js';
+
+
+
+const productsDiv=document.querySelector(".best-seller.phones");
+
+if (window.location.pathname.endsWith("login.html")) {
+    import("./login.js")
+        .then((module) => {
+            module.login(); // Call an initialization function if needed
+        })
+        .catch((error) => console.error("Failed to load login.js:", error));
+}
+
+
+if (window.location.href.includes("categories.html")) {
+    import("./categories.js")
+        .then((module) => {
+            module.categories(); // Call an initialization function if needed
+        })
+        .catch((error) => console.error("Failed to load categories.js:", error));
+}
+
+// main.js
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all modules
+    document.querySelector(".btn-menu").addEventListener("click",menuAndOptions);
+    menuAndOptions();
+    searchResults();
+    
+    testTiming();
+    //categories();
+    hardCodedProducts();
+    wishList();
+    fetchBooks()
+        .then(() => fetchMarketplaceProducts())
+        .then(() => {
+            cart();
+            viewProducts();
+            
+        })
+        .catch(console.error);
+
+    // Event delegation for product clicks
+    document.addEventListener("click", (event) => {
+        const productCard = event.target.closest('.product-card');
+        if(productCard) {
+            const productId = productCard.dataset.id;
+            window.location.href=`./htmls/product.html?id=${productId}`;
+        }
+    });
+});
+ 
+`
+ categories.js
+ 
+import { fetchBooks } from "./apis";
+import { hardCodedProducts } from "./list0fProducts";
+
+export function categories(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const bookContainer = document.querySelector(".best-seller.book");
+    
+    const bookHeader=document.querySelector(".book-header")
+    if (category === "books") {
+        
+        bookHeader.innerHTML=""
+        bookHeader.innerHTML=`<h1>Books</h1>
+        <h3>Immerse yourself into our finest collection of books</h3>`
+        fetchBooks().then(data => {
+            loadBooks(data);
+        });
+
+        
+
+        function loadBooks(books){
+            bookContainer.innerHTML="";
+            
+            const booksForSale = books?.items.filter(book => book.saleInfo && book.saleInfo.saleability === "FOR_SALE");
+            booksForSale.forEach(book => {
+                
+                bookContainer.innerHTML+=`
+                <figure class="product-card" data-id="${book.id}">
+                    <img class="product-img" src="${book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image.jpg'}">
+                    <p class="device-name brand author">${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'}</p>
+                    <p class="device-name">${book.volumeInfo.title}</p>
+                    <p class="price">$${book.saleInfo && book.saleInfo.listPrice ? book.saleInfo.listPrice.amount + ' ' + book.saleInfo.listPrice.currencyCode : 'Price not available'}</p>
+                </figure>
+            `;
+        })};
+
+
+        
+    } else if (category === "smartphones") {
+        
+        bookHeader.innerHTML=""
+        bookHeader.innerHTML=`<h1>Smartphones</h1>`
+
+        bookContainer.innerHTML=''
+     
+        const products = hardCodedProducts().filter(product => product.category === "smartphones");
+        products.forEach(product=>{
+            bookContainer.innerHTML += `
+            <figure class="product-card" data-id="${product.id}"
+                    data-image="${product.image}"
+                    data-title="${product.title}"
+                    data-description="${product.description}"
+                    data-price="${product.price}">
+                <img class="product-img" src="${product.image}" alt="${product.title}">
+                <p class="device-name">${product.title}</p>
+                <p class="price ">$${product.price}</p>
+                <p class="device-name">${product.description}</p>
+                <button class="add-to-wishlist-btn">&#9825;</button>
+                <button class="add-to-cart">🛒Add to Cart</button>
+            </figure>`;
+        
+    })}else if (category === "tv") {
+        
+        bookHeader.innerHTML=""
+        bookHeader.innerHTML=`<h1>TVs</h1>`
+
+        bookContainer.innerHTML=''
+     
+        const products = hardCodedProducts().filter(product => product.category === "tv");
+        products.forEach(product=>{
+            bookContainer.innerHTML += `
+            <figure class="product-card" data-id="${product.id}"
+                    data-image="${product.image}"
+                    data-title="${product.title}"
+                    data-description="${product.description}"
+                    data-price="${product.price}">
+                <img class="product-img-tv" src="${product.image}" alt="${product.title}">
+                <p class="device-name">${product.title}</p>
+                <p class="price ">$${product.price}</p>
+                <p class="device-name">${product.description}</p>
+                <button class="add-to-wishlist-btn">&#9825;</button>
+                <button class="add-to-cart">🛒Add to Cart</button>
+            </figure>`;
+        
+    })}
+
+        
+    
+
+    bookContainer.addEventListener('click', (event) => {
+    const card = event.target.closest('.product-card');
+    if (card) {
+        const id = card.dataset.id;
+        window.location.href = `product.html?id=${id}`;
+    }
+    });
+
+}
+
+test.js
+// the only reason this exists is because of timing issues 
+export function testTiming(){
+  
+    const adminSettings = document.querySelector(".admin-setting");
+    const settingDiv = document.querySelector(".setting-div");
+
+    if (adminSettings) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        adminSettings.style.display = currentUser?.isAdmin ? "inline-block" : "none";
+    }
+
+    
+    adminSettings?.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        if (settingDiv.innerHTML.trim() !== "") {
+            settingDiv.innerHTML = "";    
+        } else {
+            settingDiv.innerHTML = `
+                <p><a class="add-products search-suggestions" href="addproducts.html">+ Add Products</a></p>
+                <p><a class="log-out search-suggestions">Log Out</a></p>
+            `;
+        }
+    });
+;
+
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("log-out")) {
+        console.log("Logging Out...");
+        localStorage.removeItem("currentUser");
+        window.location.href = "login.html";
+    }
+});
+
+}
+
+///notes
+
+/*fetch('https://www.googleapis.com/books/v1/volumes?q=technology&maxResults=40&printType=books&key=AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fk')
+  .then(res => res.json())
+
+  .then(data => {
+    //console.log(data)
+    data.items.forEach(book => {
+      const booktitle = book.volumeInfo.title;
+      const bookauthors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown';
+      const bookthumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image.jpg';
+      const bookprice = book.saleInfo && book.saleInfo.listPrice ? book.saleInfo.listPrice.amount + ' ' + book.saleInfo.listPrice.currencyCode : 'Price not available';
+      const booksForSale = data.items.filter(book => book.saleInfo && book.saleInfo.saleability === "FOR_SALE");
+
+   
+      
+    });
+    const booksForSale = data.items.filter(book => book.saleInfo && book.saleInfo.saleability === "FOR_SALE");
+    booksForSale.forEach(book => {
+        console.log("Title:", book.volumeInfo.title);
+        console.log("Price:", book.saleInfo.listPrice.amount, book.saleInfo.listPrice.currencyCode);
+        console.log("------");
+      });
+  })
+
+//AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fkZ books apikey
+fetch('https://api.api-ninjas.com/v1/computers?type=tablet', {
+  headers: { 
+    'X-Api-Key': '0wvvMeCv0GPEzclhMv8cEg==rY32WYFSD58lryI4' // Replace with your actual key
+  }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));*/
+/*
+fetch('https://api.api-ninjas.com/v1/computers?type=monitor', {
+  headers: { 'X-Api-Key': '0wvvMeCv0GPEzclhMv8cEg==rY32WYFSD58lryI4' }
+})
+  .then(response => response.json())
+  .then(data => console.log(data));*/
+
+apis.js export async function fetchMarketplaceProducts() {
+  try {
+      const res = await fetch('https://fakestoreapi.com/products');
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
+  } catch (error) {
+      console.error('Failed to fetch products:', error);
+      return []; // Return empty array as fallback
+  }
+}
+export async function fetchBooks() {
+  try {
+    const res = await fetch('https://www.googleapis.com/books/v1/volumes?q=technology&maxResults=40&printType=books&key=AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fk');
+    if (!res.ok) throw new Error('Network error');
+    return res.json();
+  } catch (error) {
+    console.error('Failed to fetch books:', error);
+    return { items: [] }; // Return empty fallback
+  }
+}
+wishlist.js
+
+export function wishList() {
+    const loadWishlist = document.querySelector(".wishlist-list");
+    const wishContainer=document.querySelector(".wishlist-container");
+    // Load wishlist items on page load
+    if (loadWishlist) {
+        loadWishlist.innerHTML = "";
+        
+        const wishlistArray = JSON.parse(localStorage.getItem('wishlist')) || [];
+                  
+        if (wishlistArray.length === 0) {
+            wishContainer.innerHTML = '<h3>... Oops, no products here yet</h3>';
+
+        }else{loadWishlist.innerHTML = wishlistArray.map(product => `
+            <figure class="product-card review" 
+                    data-id="${product.id}"
+                    data-image="${product.image}"
+                    data-title="${product.title}"
+                    data-description="${product.description}"
+                    data-price="${product.price}">
+                <img class="product-image review" src="${product.image}" alt="${product.title}">
+                <p class="product-name review">${product.title}</p>
+                <p class="product-price review">$${product.price}</p>
+                <p class="product-description review">${product.description}</p>
+                <button class="add-to-wishlist-btn">&#9825;</button>
+                <button class="remove-wish-item">Remove from Wishlist</button>
+                <button class="add-to-card">🛒Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            </figure>`
+        ).join('');}
+    }
+
+    // Add event delegation for wishlist buttons
+    document.addEventListener('click', e => {
+        if (e.target && e.target.classList.contains('add-to-wishlist-btn')) {
+            const productCard = e.target.closest('.product-card.review');
+            
+            if (productCard) {
+                const product = {
+                    id: productCard.dataset.id,
+                    image: productCard.dataset.image,
+                    title: productCard.dataset.title,
+                    description: productCard.dataset.description,
+                    price: productCard.dataset.price
+                };
+
+                let wishlistArray = JSON.parse(localStorage.getItem('wishlist')) || [];
+                
+                // Check if product already exists
+                if (!wishlistArray.some(item => item.id === product.id)) {
+                    wishlistArray.push(product);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlistArray));
+                    alert('Added to wishlist!');
+                } else {
+                    alert('Already in wishlist!');
+                }
+            }
+        }
+    })//remove from wishlist
+    document.addEventListener('click', e => {
+        if (e.target && e.target.classList.contains('remove-wish-item')) {
+            const productCard = e.target.closest('.product-card.review');
+            const productId=productCard.dataset.id;
+            const wishContainer=document.querySelector(".wishlist-container")
+            let wishlistArray = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            // Remove the product from the wishlist array
+            wishlistArray = wishlistArray.filter(item => item.id !== productId);
+            
+            // Update localStorage with the new wishlist
+            localStorage.setItem('wishlist', JSON.stringify(wishlistArray));
+            
+
+            wishList();
+
+            
+}})
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser?.isAdmin) {
+        adminSettings.style.display = "block";
+    }
+;
+
+}
+previewProducts.js 
+import { fetchMarketplaceProducts,fetchBooks } from "./apis";
+import { hardCodedProducts } from "./list0fProducts";
+export function viewProducts(){
+   
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    
+
+
+    
+
+    
+    // Full list of your hardcoded products from index.html and marketplace.html and listOfProducts.js
+    const customProducts = hardCodedProducts()
+    
+
+    // Check if the product is custom
+    const customProduct = customProducts.find(p => p.id === productId);
+
+    if (customProduct) {
+        renderProduct(customProduct);
+    } else if (Number(productId)>=1 && Number(productId)<=20){
+        // Fallback to API if not custom
+        fetchMarketplaceProducts().then(data=>{
+            const product = data.find(p => p.id === Number(productId));
+            renderProduct({
+                id:productId,
+                title:product.title,
+                description:product.description,
+                price:product.price,
+                image:product.image
+            });
+        })
+        
+    }else {//if i add more book data i need to change it
+        fetchBooks().then(data => {
+            const book = data.items.find(book => book.id === productId); // Compare with the real ID
+            renderProduct({
+                id: book.id,
+                title: book.volumeInfo.title,
+                description: book.volumeInfo.description || 'No description available',
+                price: book.saleInfo.listPrice?.amount || 'N/A',
+                image: book.volumeInfo.imageLinks?.thumbnail || 'no-image.jpg'
+            });
+        });
+        
+
+    }
+    
+
+
+
+
+    function renderProduct(product) {
+        document.querySelector(".product-details").innerHTML = `
+        <figure class="product-card review" data-id="${product.id}"
+                data-image="${product.image}"
+                data-title="${product.title}"
+                data-description="${product.description}"
+                data-price="${product.price}">
+            <img class="product-image review" src="${product.image}" alt="${product.title}">
+            <p class="product-name review">${product.title}</p>
+            <p class="product-price review">$${product.price}</p>
+            <p class="product-description review">${product.description}</p>
+            <button class="add-to-wishlist-btn">&#9825;</button>
+            <button class="add-to-cart">🛒Add to Cart</button>
+        </figure>`;
+    }
+    wishList();
+    cart();
+
+}
+import { fetchMarketplaceProducts } from "./apis.js";
+import {fetchBooks} from "./apis.js";
+import { hardCodedProducts } from "./list0fProducts.js";
+let products=[]
+
+const customProducts = hardCodedProducts() 
+/*[
+    { id: 21, title: "iPhone 16 5G 8GB/256GB" },
+    { id: 22, title: "SAMSUNG GALAXY S25 ULTRA" },
+    { id: 23, title: "iPhone 15 5G 6GB/512GB" },
+    { id: 24, title: "Redmi 13C NFC 4GB/128GB Navy Blue" }
+];
+*/
+export function searchResults(){
+    const searchDiv = document.querySelector(".search");
+    const searchBar =document.querySelector(".search-btn");
+    Promise.all([
+        fetchMarketplaceProducts(),
+        fetchBooks()
+    ]).then(([marktdata,bookdata]) => {
+
+        const booksForSale = bookdata.items.filter(book =>
+            book.saleInfo && book.saleInfo.saleability === "FOR_SALE"
+        ).map(book => {
+            
+            return{
+                id: book.id, // give unique book IDs
+                title: book.volumeInfo.title
+            }
+            
+        });
+        products =[...marktdata, ...booksForSale, ...customProducts]
+    // Store fetched products
+   
+    searchBar.addEventListener('input',(e)=>{
+        const searchTerm =e.target.value;
+        searchDiv.innerHTML=""
+        let limitedSearchList=[]
+        products.filter((product)=>{
+            if(searchTerm.trim()==""||searchTerm==null){
+                searchDiv.innerHTML="";
+                return;
+            }
+            else if(product.title.toLowerCase().includes(searchTerm.toLowerCase())){
+                
+                limitedSearchList.push({id:product.id, title:product.title});
+               }});
+        limitedSearchList=limitedSearchList.slice(0,5);
+        limitedSearchList.forEach((product)=>searchDiv.innerHTML+=`
+        <p><a class='search-suggestions' href="product.html?id=${product.id}" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="14" height="14" viewBox="0 0 50 50">
+<path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
+</svg> ${product.title}</a></p>
+    `)})
+})
+}
+menu.js
+export function menuAndOptions() {
+    const menuBtn = document.querySelector(".btn-menu");
+    const menuOptions = document.querySelector(".menu-options");
+    
+    if (!menuBtn || !menuOptions) return;
+
+    menuBtn.addEventListener('click', () => {
+        menuOptions.innerHTML = menuOptions.innerHTML.trim() ? "" : `
+            <p><a class='search-suggestions' href="./htmls/categories.html?category=books">Books</a></p>
+            <p><a class='search-suggestions' href="./htmls/categories.html?category=smartphones">SmartPhones</a></p>
+            <p><a class='search-suggestions' href="./htmls/categories.html?category=tv">TVs</a></p>
+            <p><a class='search-suggestions' href="./htmls/categories.html?category=watches">Watches</a></p>`;
+    });
+}
+markeplace.js 
+import { searchResults }from './search.js'
+import { menuAndOptions } from './menu.js';
+import { fetchMarketplaceProducts } from './apis.js';
+
+const btnSubmit =document.querySelector(".btn-submit");
+const searchBar =document.querySelector(".search-btn");
+const aithonLogo=document.querySelector(".logo");
+const navBar=document.querySelector(".navigation");
+const menuBtn=document.querySelector(".btn-menu");
+const apiExperiment=document.querySelector(".experiment");
+const productsDiv=document.querySelector(".best-seller.experi");
+const productDetails=document.querySelector(".product-details");
+const searchDiv = document.querySelector(".search");
+const bookContainer=document.querySelector(".best-seller.book");
+const experi=document.querySelector(".experi");
+const addToWishlistBtn =document.querySelector(".add-to-wishlist-btn");
+const productCard = document.querySelector('.product-card.review');
+//fetch marketplace
+/*fetch('https://fakestoreapi.com/products')
+    .then(res=> res.json())
+    .then(data=>{
+        products=data;
+        runExperiment();
+        searchResults();
+    })*/
+//////fetch books
+
+searchResults();
+menuAndOptions();
+fetchMarketplaceProducts();
+/*
+let products=[]
+fetch('https://fakestoreapi.com/products')
+    .then(res => res.json())
+    .then(apiData => {
+    products = apiData;
+    runExperiment();
+    
+});*/
+document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser?.isAdmin) {
+        adminSettings.style.display = "block";
+    }
+});
+
+let products=[]
+fetchMarketplaceProducts()
+    .then(data=>{
+        products=data;
+        runExperiment();
+    })
+
+  //AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fk
+////AIzaSyBnPaJq9DnQqYCLqu9Whhvl3Av401276fk
+
+const runExperiment=()=>{
+   
+
+    experi.innerHTML="";
+    products.forEach(product=>{
+    experi.innerHTML += `
+    
+        <figure class="product-card" data-id="${product.id}">
+            <img class="product-img" src="${product.image}">
+            <p class="device-name">${product.title}</p>
+            <p class="price">$${product.price}</p>
+        </figure>
+    `
+     });
+         
+}
+
+
+productsDiv.addEventListener("click",(event)=>{
+    const productCard = event.target.closest('.product-card');
+    if(productCard){
+        const productId = productCard.dataset.id;
+        window.location.href=`product.html?id=${productId}`
+    }
+})
+login.js 
+export function login() {
+    const loginEmail = document.querySelector('.login-email');
+    const loginPassword = document.querySelector('.login-password');
+    const loginBtn = document.querySelector('.submit-btn');
+    const loginContainer = document.querySelector('.auth-container');
+    const signUpOption = document.getElementById("signup-btn");
+    const loginOption = document.getElementById("login-btn");
+    const usersNameDiv = document.getElementById("name-field");
+    const formTitle = document.getElementById("form-title");
+    const usersName = document.getElementById("name");
+    const wrongCredentials = document.querySelector('.wrong-credentials');
+    let signup = false;
+
+    // Switch to Sign Up form
+    signUpOption.addEventListener("click", () => {
+        signUpOption.classList.add("active");
+        loginOption.classList.remove("active");
+        loginOption.classList.add("inactive");
+        usersNameDiv.classList.remove("hidden");
+        formTitle.innerText = "Sign up";
+        signup = true;
+    });
+
+    // Switch to Login form
+    loginOption.addEventListener('click', () => {
+        loginOption.classList.remove("inactive");
+        loginOption.classList.add("active");
+        signUpOption.classList.remove("active");
+        usersNameDiv.classList.add("hidden");
+        formTitle.innerText = "Log in";
+        signup = false;
+    });
+
+    // Handle form submission
+    document.getElementById('auth-form').addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent form submission
+
+        if (!signup) {
+            // Login logic
+            const loginArray = JSON.parse(localStorage.getItem('login')) || [];
+            let isAdmin = loginEmail.value === "admin@admin.com" && loginPassword.value === "123456789";
+            // Find the user from loginArray
+            const existingUser = loginArray.find(item =>
+                item.email === loginEmail.value &&
+                item.password === loginPassword.value);
+
+            if (!existingUser && !isAdmin) {
+                wrongCredentials.innerText = "Wrong Email or Password";
+            }
+
+            if (existingUser || isAdmin) {
+                const userData = {
+                    email: loginEmail.value,
+                    password: loginPassword.value,
+                    name: existingUser.name,
+                    isAdmin:isAdmin ==true || existingUser.isAdmin || false
+                };
+
+                // Store current user in localStorage
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+
+                // Show welcome message and redirect
+                loginContainer.innerHTML = `
+                    <h1>Welcome back, ${existingUser.name}!</h1>
+                    <p>You are being redirected to the main page...</p>
+                `;
+
+                setTimeout(() => {
+                    window.location.replace("index.html"); // Redirect to index.html
+                }, 1500);
+            }
+        } else {
+            
+            const userData = {
+                email: loginEmail.value,
+                password: loginPassword.value,
+                name: usersName.value || "Guest",
+                isAdmin: false 
+            };
+
+            let loginArray = JSON.parse(localStorage.getItem('login')) || [];
+
+            // Push new user to loginArray
+            loginArray.push(userData);
+            localStorage.setItem('login', JSON.stringify(loginArray));
+
+            // Store current user in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+
+            // Show welcome message and redirect
+            loginContainer.innerHTML = `
+                <h1>Welcome, ${userData.name}!</h1>
+                <p>You are being redirected to the main page...</p>
+            `;
+
+            setTimeout(() => {
+                window.location.replace("index.html"); // Redirect to index.html
+            }, 1500);
+        }
+    });
+}
+
+export function checkAdminStatus() {
+    const adminSettings = document.querySelector(".admin-setting");
+    if (!adminSettings) return;
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    adminSettings.style.display = currentUser?.isAdmin ? "inline-block" : "none";
+}
+cart.js
+export function cart() {
+    
+    function renderCart() {
+        const loadCartList = document.querySelector(".cart-list");
+        const cartContainer = document.querySelector(".cart-container");
+        const cartH1=document.querySelector(".cart-h1");
+        if (loadCartList) {
+            loadCartList.innerHTML = "";
+            const cartListArray = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cartListArray.length === 0) {
+                cartContainer.innerHTML = '<h3>... Oops, no products here yet</h3>';
+            } else {
+                cartH1.innerHTML=`<h1>Your Cart</h1>`;
+                loadCartList.innerHTML = cartListArray.map(product => `
+                    <figure class="product-card review" 
+                            data-id="${product.id}">
+                        <img class="product-image review" src="${product.image}" alt="${product.title}">
+                        <p class="product-name review">${product.title}</p>
+                        <p class="product-price review">$${product.price}</p>
+                        <p class="product-description review">${product.description}</p>
+                        <p class="quantity">${product.quantity || 1}</p>
+                        <button class="add-to-cart">&#9825;</button>
+                        <button class="buy-now">Buy Now</button>
+                        <button class="remove-from-cart">Remove from Cart</button>
+                    </figure>`
+                ).join('');
+            }
+        }
+    } 
+
+    
+    renderCart();
+
+    
+    document.addEventListener('click', e => {
+        if (e.target.classList.contains('add-to-cart')) {
+            const productCard = e.target.closest('.product-card.review');
+            
+            if (productCard) {
+                const product = {
+                    id: productCard.dataset.id,
+                    image: productCard.dataset.image,
+                    title: productCard.dataset.title,
+                    description: productCard.dataset.description,
+                    price: productCard.dataset.price,
+                    quantity: 1
+                };
+                
+                let cartListArray = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingProduct = cartListArray.find(item => item.id === product.id);
+                
+                if (existingProduct) {
+                    existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+                    alert('Quantity updated in cart!');
+                } else {
+                    cartListArray.push(product);
+                    localStorage.setItem('cart', JSON.stringify(cartListArray));
+                    alert('Added to Cart!');
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cartListArray));
+                renderCart(); 
+            }
+        }
+    });
+    document.addEventListener('click', e => {
+        if (e.target && e.target.classList.contains('remove-from-cart')) {
+            const productCard = e.target.closest('.product-card.review');
+            const productId=productCard.dataset.id;
+            
+            let cartListArray = JSON.parse(localStorage.getItem('cart')) || [];
+
+            
+            cartListArray = cartListArray.filter(item => item.id !== productId);
+            
+            
+            localStorage.setItem('cart', JSON.stringify(cartListArray));
+            renderCart()
+        }})
+        
+            
+}
+

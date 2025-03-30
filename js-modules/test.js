@@ -2,7 +2,7 @@
 
 // the only reason this exists is because of timing issues 
 export function testTiming(){
-  document.addEventListener('DOMContentLoaded', function() {
+  
     const adminSettings = document.querySelector(".admin-setting");
     const settingDiv = document.querySelector(".setting-div");
 
@@ -19,12 +19,12 @@ export function testTiming(){
             settingDiv.innerHTML = "";    
         } else {
             settingDiv.innerHTML = `
-                <p><a class="add-products search-suggestions" href="addProducts.html">+ Add Products</a></p>
+                <p><a class="add-products search-suggestions" href="addproducts.html">+ Add Products</a></p>
                 <p><a class="log-out search-suggestions">Log Out</a></p>
             `;
         }
     });
-});
+;
 
 
 document.addEventListener("click", (e) => {

@@ -50,15 +50,18 @@ export function wishList() {
                 if (!wishlistArray.some(item => item.id === product.id)) {
                     wishlistArray.push(product);
                     localStorage.setItem('wishlist', JSON.stringify(wishlistArray));
-                    alert('Added to wishlist!');
+                    //preventDefault()//
                 } else {
-                    alert('Already in wishlist!');
+                    
+                    //preventDefault()//
                 }
             }
         }
     })//remove from wishlist
     document.addEventListener('click', e => {
         if (e.target && e.target.classList.contains('remove-wish-item')) {
+           // e.stopPropagation()
+           // e.preventDefault()
             const productCard = e.target.closest('.product-card.review');
             const productId=productCard.dataset.id;
             const wishContainer=document.querySelector(".wishlist-container")
@@ -75,7 +78,15 @@ export function wishList() {
 
             
 }})
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser?.isAdmin) {
+        const adminSettings=document.querySelector('.admin-setting')
+        adminSettings.style.display = "block";
+    }
+;
+
 }
 
-document.addEventListener('DOMContentLoaded', wishList);
+
 

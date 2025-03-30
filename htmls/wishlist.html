@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="A Tech gadgets and smartphone e-shop">
         <title>Aithon</title>
-        <link rel="stylesheet" href="styles.css">
-        <script type="module" src="wishlist.js" defer></script>
-        <script type="module" src="cart.js" defer></script>
+        <link rel="stylesheet" href="../styles.css">
+        <script type="module" src="../js-modules/main.js" defer></script>
+      
     </head>
     <body>
         <header>
@@ -15,25 +15,34 @@
                 <div class="menu">
                     <button class="btn-menu">☰Menu</button> 
                     <div class="menu-options"></div>
-                    <div class="menu-hidden-categories"></div>
+                    
                 </div>
                 
-                <p ><a class="logo" href="index.html">A<img class="cart-logo" src="high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
+                <p ><a class="logo" href="../index.html">A<img class="cart-logo" src="../svgs/high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
                 <div class="search-nav" >
                     <input class="search-btn" type="text" placeholder="&#128269Discover" >
                     <div class="search"></div>
                 </div>
-                <button type="submit" class="btn-submit">Search</button
+                <button type="submit" class="btn-submit">Search</button>
+
                 <div class="right-side-nav">
                     <div>
-                        <button class="wishlist"> &#9825;</button>
+                        <div > <a class="wishlist" href="./htmls/wishlist.html"><img class="svg-account" src="/svgs/icons8-favourite-50.png"></a></div>
                         <div class="wishlist-modal"></div>
                     </div>
-                    <p ><a class="cart">&#128722;</a></p>
+                    <p ><a href= "/htmls/cart.html" class="cart"><img class="svg-account" src="/svgs/icons8-cart-48.png"></a></p>
+                    <p><a href="./htmls/login.html" class="account-logo"><img class="svg-account" src='/svgs/icons8-account-50.png' height="23"> </a></p>
+                    
+                    <div>
+                        <button class="admin-setting"><a class="settinggg"><img class="svg-account" src="/svgs/icons8-setting-50.png"></a></button>
+                        <div class="setting-div"></div>
+                    </div>
+                   
                 </div>
+ 
+                
             </nav>
         </header>
-
 
         <main>
             
@@ -81,6 +90,6 @@
 
         </footer>
     </main>
-    <script src="marketplace.js" ></script>
+    <script src="../js-modules/marketplace.js" ></script>
 </body>
 </html>

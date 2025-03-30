@@ -1,7 +1,6 @@
-import { searchResults } from './search.js';
-import { fetchMarketplaceProducts } from './apis.js';
+import { searchResults }from './search.js'
 import { menuAndOptions } from './menu.js';
-
+import { fetchMarketplaceProducts } from './apis.js';
 
 const btnSubmit =document.querySelector(".btn-submit");
 const searchBar =document.querySelector(".search-btn");
@@ -38,6 +37,13 @@ fetch('https://fakestoreapi.com/products')
     runExperiment();
     
 });*/
+document.addEventListener('DOMContentLoaded', () => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser?.isAdmin) {
+        adminSettings.style.display = "block";
+    }
+});
+
 let products=[]
 fetchMarketplaceProducts()
     .then(data=>{

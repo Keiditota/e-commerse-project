@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="A Tech gadgets and smartphone e-shop">
         <title>Aithon</title>
-        <link rel="stylesheet" href="styles.css">
-        <script type="module" src="marketplace.js" defer></script>
+        <link rel="stylesheet" href="../styles.css">
+        <!--<script type="module" src="marketplace.js" defer></script>
+        
         <script type="module" src="wishlist.js" defer></script>
-        <script type="module" src="cart.js" defer></script>
+        <script type="module" src="cart.js" defer></script>-->
+        <script type="module" src="../js-modules/main.js" defer></script>
     </head>
     <body>
         <header>
@@ -16,19 +18,29 @@
                 <div class="menu">
                     <button class="btn-menu">☰Menu</button> 
                     <div class="menu-options"></div>
-                    <div class="menu-hidden-categories"></div>
+                    
                 </div>
                 
-                <p ><a class="logo" href="index.html">A<img class="cart-logo" src="high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
+                <p ><a class="logo" href="../index.html">A<img class="cart-logo" src="../svgs/high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
                 <div class="search-nav" >
                     <input class="search-btn" type="text" placeholder="&#128269Discover" >
                     <div class="search"></div>
                 </div>
                 <button type="submit" class="btn-submit">Search</button>
+
                 <div class="right-side-nav">
-                    <p ><a class="wishlist" href="wishlist.html"> &#9825;</a></p>
-                    <p ><a href="cart.html" class="cart">&#128722;</a></p>
-                    <p><a><img src="icons8-account-50.png" class="account" ></a></p>
+                    <div>
+                        <div > <a class="wishlist" href="./htmls/wishlist.html"><img class="svg-account" src="/svgs/icons8-favourite-50.png"></a></div>
+                        <div class="wishlist-modal"></div>
+                    </div>
+                    <p ><a href= "/htmls/cart.html" class="cart"><img class="svg-account" src="/svgs/icons8-cart-48.png"></a></p>
+                    <p><a href="./htmls/login.html" class="account-logo"><img class="svg-account" src='/svgs/icons8-account-50.png' height="23"> </a></p>
+                    
+                    <div>
+                        <button class="admin-setting"><a class="settinggg"><img class="svg-account" src="/svgs/icons8-setting-50.png"></a></button>
+                        <div class="setting-div"></div>
+                    </div>
+                   
                 </div>
  
                 
@@ -39,56 +51,35 @@
                 <div class="product-details">
                     
                     <script type="module">
-                        import { cart } from './cart.js';
-                        import { fetchBooks } from './apis.js';
-                        import { fetchMarketplaceProducts} from './apis.js';
-                        import { wishList } from './wishlist.js'
+                        /* import { cart } from '../js-modules/cart.js';
+                        import { fetchBooks } from '../js-modules/apis.js';
+                        import { fetchMarketplaceProducts} from '../js-modules/apis.js';
+                        import { wishList } from '../js-modules/wishlist.js';
+                        import {hardCodedProducts }from '../js-modules/list0fProducts.js';
+                        import {viewProducts}from '../js-modules/previewProducts.js'
+                        viewProducts()
+                        hardCodedProducts()
+                        wishList()
+                        fetchBooks()
+                        fetchMarketplaceProducts()
+                        cart()*/
+                        /*
+                        import { cart } from '../js-modules/cart.js';
+                        import { fetchBooks } from '../js-modules/apis.js';
+                        import { fetchMarketplaceProducts} from '../js-modules/apis.js';
+                        import { wishList } from '../js-modules/wishlist.js'
+                        import {hardCodedProducts }from '../js-modules/listOfProducts.js'
                         const urlParams = new URLSearchParams(window.location.search);
                         const productId = urlParams.get('id');
                        
                 
                 
-
+                        
                     
                         
-                        // Full list of your hardcoded products from index.html and marketplace.html
-                        const customProducts = [
-                          {
-                            id: "21",
-                            title: "iPhone 16 5G 8GB/256GB",
-                            price: 889,
-                            description: "Custom - iPhone 16 with amazing features.",
-                            image: "./photos/1966495-APPLE-128GB-hero-560x560.avif"
-                          },
-                          {
-                            id: "22",
-                            title: "SAMSUNG GALAXY S25 ULTRA",
-                            price: 1199,
-                            description: "Custom - Samsung's latest flagship phone.",
-                            image: "./photos/xlarge_20250123122759_samsung_galaxy_s25_5g_dual_sim_12gb_256gb_mint_proparagelia-800x800.jpeg"
-                          },
-                          {
-                            id: "23",
-                            title: "iPhone 15 5G 6GB/512GB",
-                            price: 779.99,
-                            description: "Custom - iPhone 15 Plus with massive storage.",
-                            image: "./photos/iphone_15_plus_blue_1.jpg"
-                          },
-                          {
-                            id: "24",
-                            title: "Redmi 13C NFC 4GB/128GB Navy Blue",
-                            price: 159,
-                            description: "Custom - Budget Xiaomi Redmi 13C NFC edition.",
-                            image: "./photos/product-704128-main.jpg"
-                          },
-                          {
-                            id: "25",
-                            title: "Rhodoulaaa",
-                            price: "❤️",
-                            description: "Fucking crazy asf",
-                            image: "./photos/485875675_1847321179374927_6689284692641073773_n.jpg"
-                          }
-                        ];
+                        // Full list of your hardcoded products from index.html and marketplace.html and listOfProducts.js
+                        const customProducts = hardCodedProducts()
+                        
 
                         // Check if the product is custom
                         const customProduct = customProducts.find(p => p.id === productId);
@@ -143,7 +134,7 @@
                             </figure>`;
                         }
                         wishList();
-                        cart();
+                        cart(); */
 </script>
 
                     

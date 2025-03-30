@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="A Tech gadgets and smartphone e-shop">
+        <title>Aithon</title>
+        <link rel="stylesheet" href="../styles.css">
+        <script type="module" src="../js-modules/main.js" defer></script>
+        <script type="module" src="../js-modules/login.js" defer></script>
+        
+    </head>
+    <body>
+        <header>
+            <nav class="navigation">
+                <div class="menu">
+                    <button class="btn-menu">☰Menu</button> 
+                    <div class="menu-options"></div>
+                    
+                </div>
+                
+                <p ><a class="logo" href="../index.html">A<img class="cart-logo" src="../svgs/high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
+                <div class="search-nav" >
+                    <input class="search-btn" type="text" placeholder="&#128269Discover" >
+                    <div class="search"></div>
+                </div>
+                <button type="submit" class="btn-submit">Search</button>
+
+                <div class="right-side-nav">
+                    <div>
+                        <div > <a class="wishlist" href="./htmls/wishlist.html"><img class="svg-account" src="/svgs/icons8-favourite-50.png"></a></div>
+                        <div class="wishlist-modal"></div>
+                    </div>
+                    <p ><a href= "/htmls/cart.html" class="cart"><img class="svg-account" src="/svgs/icons8-cart-48.png"></a></p>
+                    <p><a href="./htmls/login.html" class="account-logo"><img class="svg-account" src='/svgs/icons8-account-50.png' height="23"> </a></p>
+                    
+                    <div>
+                        <button class="admin-setting"><a class="settinggg"><img class="svg-account" src="/svgs/icons8-setting-50.png"></a></button>
+                        <div class="setting-div"></div>
+                    </div>
+                   
+                </div>
+ 
+                
+            </nav>
+        </header>
+
+
+        <main>
+            <div class="auth-container">
+                <div class="wrong-credentials"></div>
+                <!-- Switch Button -->
+                <div class="switch-container">
+                    <span id="login-btn" class="active">Login</span>
+                    <span id="signup-btn">Sign Up</span>
+                </div>
+        
+                <h2 id="form-title">Login</h2>
+        
+                <!-- Auth Form -->
+                <form id="auth-form">
+                    <div id="name-field" class="hidden">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+        
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="login-email" placeholder="Enter your email" required>
+        
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="login-password" placeholder="Enter your password" required>
+        
+                    <button class="submit-btn" type="submit">Login</button>
+                </form>
+            </div>
+        </main>
+        
+
+
+        
+
+        <footer class="footer" >
+            <div class="address">
+            <h3>Address</h3>
+            <address>
+                Kavros,Chania 23<br>
+                Crete Greece
+            </address>
+            
+        </div>
+            <div class="">
+                <h3>Aithon</h3>
+                <p><a>Who are we</a></p>
+                <p><a>Jobs</a></p>
+            </div>
+            <div class="contact">
+                <h3>Contact us</h3>
+                <p><a href="mailto:keidimc3@gmail.com">Email us</a></p>
+                <p><a href="tel:+306974577455">Phone: +30 697 457 7455</a></p>
+            </div>
+            <div class="account">
+                <h3>Account</h3>
+                <p><a>Sign up</a></p>
+                <p><a>Log in</a></p>
+            </div>
+
+
+        </footer>
+    </main>
+    <script src="marketplace.js" ></script>
+</body>
+</html>

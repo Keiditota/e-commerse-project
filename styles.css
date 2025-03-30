@@ -13,6 +13,7 @@ body{
     width:100%;
     display: flex;
     justify-content:space-evenly;
+    padding:0 20px;
     align-items:center;
     position:sticky;
 }
@@ -24,29 +25,31 @@ h1{
 .right-side-nav{
     display:flex;
     margin-left:170px;
-    gap:15px;
+    gap:20px;
     justify-content: center;
     align-items: center;
 }
 
-
-.cart{
-    color:white;
-    font-size:23px;
-    margin:0;
-}
-.wishlist{
-    font-size:35px;
-    text-decoration: none;
-    margin:0;
-    background-color: inherit;
+.cart,
+.wishlist,
+.account-logo,
+.svg-account,
+.admin-setting {
+    width: 30px; /* Set a uniform width */
+    height: 30px; /* Set a uniform height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
-.account{
-    height:23px;
-    width:23px;
-    
 
+
+.admin-setting{
+    background-color: rgb(92, 5, 154);
+    border:none;
+    cursor:pointer;
+
+    
 }
 
 .logo{
@@ -59,8 +62,12 @@ h1{
 .btn-submit,.btn-menu{
     border-radius: 10%;
     background-color:rgb(255, 255, 0);
-    height:24px;
+    height:32px;
     font-weight: 600;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    padding: 5px 10px;
  }
 
  .categories{
@@ -70,6 +77,7 @@ h1{
     gap:10px;
     margin:50px 20px 100px 20px;
  }
+ 
  .categorie{
     
     border:4px solid black;
@@ -87,7 +95,7 @@ main{
     width:100%;
 }
 .categorie:hover{
-    transform:scale(1.05);
+    transform:scale(1.02);
     border: 4px solid rgb(92, 5, 154); 
     z-index:2;
     
@@ -136,15 +144,26 @@ figure {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    
 }
 .product-img{
-    height:200px;
-    width:180px;
+    height:206px;
+    width:165px;
+    border:1px solid lightgray;
+    border-radius:10px;
+    padding: 8px ;
+    margin-top:100px ;
+    
+}
+.product-img-tv{
+    height:168px;
+    width:250px;
     border:1px solid lightgray;
     border-radius:10px;
     padding: 10px ;
     
 }
+
 .brand,.price{
     font-size: small;
     margin:7px ;
@@ -212,12 +231,30 @@ footer a{
     border-radius: 10px;
     
 }
+a{
+    text-decoration: none;
+}
+.marketplace{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    width:90vw;
+    border:2px solid lightgray;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: min(30vh);
+}
+.a-marketplace{
+    text-decoration: none;
+    color:black;
+}
 .marketplace-container{
     width:80%;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-rows:2fr;
-    
+    gap:100px;
     margin:40px  70px;
     font-size:xx-large
 }
@@ -279,6 +316,7 @@ footer a{
     display: block;
     color: black;
     text-decoration: none;
+    
 }
 .search-nav{
     position:relative;
@@ -289,6 +327,7 @@ footer a{
     
     
 }
+
 .menu-options{
     position: absolute;
     top: 100%; /* Puts it directly below the input */
@@ -324,4 +363,98 @@ footer{
 }
 main{
     min-height: 60vh;
+}
+.setting-div{
+    position: absolute;
+    top: 100%; /* Puts it directly below the input */
+    right: 0;
+    width: 20%;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 10; /* Keeps it on top */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.auth-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: min(20vh);
+    margin-bottom:min(40vh)
+}
+
+
+.switch-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.switch-container span {
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+
+
+/* testingggggg */
+#login-btn {
+    background-color: rgb(146, 23, 234);
+    color: white;
+}
+
+#signup-btn {
+    background-color: lightgray;
+}
+
+/* Active State */
+.active {
+    background-color: rgb(146, 23, 234) !important;
+    color: white !important;
+}
+
+.inactive {
+    background-color: lightgray !important;
+    color: black !important;
+}
+
+/* Hide Name Field Initially */
+.hidden {
+    display: none;
+}
+
+.auth-container input,.auth-container button {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.auth-container button {
+    background-color: rgb(146, 23, 234);
+    color: white;
+    border: none;
+    cursor: pointer;
 }
