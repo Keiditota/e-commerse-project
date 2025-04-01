@@ -22,9 +22,8 @@ export function wishList() {
                 <p class="product-name review">${product.title}</p>
                 <p class="product-price review">$${product.price}</p>
                 <p class="product-description review">${product.description}</p>
-                <button class="add-to-wishlist-btn">&#9825;</button>
                 <button class="remove-wish-item">Remove from Wishlist</button>
-                <button class="add-to-card">🛒Add to Cart</button>
+                <button class="add-to-cart">🛒Add to Cart</button>
                 <button class="buy-now">Buy Now</button>
             </figure>`
         ).join('');}

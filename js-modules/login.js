@@ -32,7 +32,7 @@ export function login() {
     });
 
     // Handle form submission
-    document.getElementById('auth-form').addEventListener('submit', (e) => {
+    document.getElementById('.auth-form').addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent form submission
 
         if (!signup) {
@@ -69,7 +69,7 @@ export function login() {
                     window.location.replace("/index.html"); // Redirect to index.html
                 }, 1500);
             }
-        } else {
+        } else { //sing up
             
             const userData = {
                 email: loginEmail.value,
@@ -96,14 +96,23 @@ export function login() {
             setTimeout(() => {
                 window.location.replace("/index.html"); // Redirect to index.html
             }, 1500);
+
         }
     });
 }
 
 export function checkAdminStatus() {
-    const adminSettings = document.querySelector(".admin-setting");
-    if (!adminSettings) return;
-
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    adminSettings.style.display = currentUser?.isAdmin ? "inline-block" : "none";
+    function attemptCheck() {
+        const adminSettings = document.querySelector(".admin-setting");
+        if (!adminSettings) {
+            setTimeout(attemptCheck, 50); // Retry every 50ms until found
+            return;
+        }
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        adminSettings.style.display = currentUser?.isAdmin ? "inline-block" : "none";
+    }
+    
+    attemptCheck();
 }
+
+
