@@ -160,7 +160,7 @@ export function hardCodedProducts(){
           description: "Λογισμικό: Tizen, Έτος Κυκλοφορίας: 2024",
           image: "https://d.scdn.gr/images/sku_main_images/052448/52448426/large_20240417113611_samsung_smart_tileorasi_50_4k_uhd_led_ue50du7172_hdr_2024.jpeg",
           category:"tv",
-          brand:"samsung-tv"
+          brand:"samsung"
         },{
           id: "39",
           title: "Samsung Smart 65' 4K LED UE65DU7172UXXH",
@@ -224,7 +224,7 @@ export function hardCodedProducts(){
           description: "Λογισμικό: Android, Έτος Κυκλοφορίας: 2022",
           image: "https://b.scdn.gr/images/sku_main_images/038551/38551203/large_20240926174631_xiaomi_smart_tileorasi_50_4k_uhd_led_tv_a2_hdr_2022.jpeg",
           category:"tv",
-          brand:"Xiaomi-tv"
+          brand:"Xiaomi"
         },{
           id: "47",
           title: "Toshiba Smart 24' HD Ready LED 24WV3F63DG",
@@ -232,14 +232,14 @@ export function hardCodedProducts(){
           description: "Λογισμικό: Vidaa, Έτος Κυκλοφορίας: 2024",
           image: "https://d.scdn.gr/images/sku_main_images/057573/57573448/large_20241120164543_toshiba_smart_tileorasi_24_hd_ready_led_24wv3f63dg_hdr_2024.jpeg",
           category:"tv",
-          brand:"Toshiba"
+          brand:"toshiba"
         },{
           id: "48",
           title: "Samsung Smart 75' 4K QLED QE75Q70DATXXH",
           price: 1146.00,
           description: "Λογισμικό: Tizen, Έτος Κυκλοφορίας: 2024",
           image: "https://d.scdn.gr/images/sku_main_images/052238/52238715/large_20240412122624_samsung_smart_tileorasi_75_4k_uhd_qled_qe75q70datxxh_hdr_2024.jpeg",
-          brand:"Samsung-tv",
+          brand:"Samsung",
           category:"tv"
         }
       ];

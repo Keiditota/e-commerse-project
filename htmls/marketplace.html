@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="A Tech gadgets and smartphone e-shop">
         <title>Aithon</title>
-        <link rel="stylesheet" href="../styles.css">
-        <script type="module" src="../js-modules/marketplace.js" defer></script>
+        <link rel="stylesheet" href="/styles.css">
+        <script type="module" src="/js-modules/main.js" defer></script>
     </head>
     <body>
         <header>
@@ -17,7 +17,7 @@
                     
                 </div>
                 
-                <p ><a class="logo" href="/index.html">A<img alt="lighting strike image" class="cart-logo" src="../svgs/high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
+                <p ><a class="logo" href="/index.html">A<img alt="lighting strike image" class="cart-logo" src="/svgs/high-voltage-svgrepo-com (1).svg" height="12" >thon</a></p>
                 <div class="search-nav" >
                     <input aria-label="search" class="search-btn" type="text" placeholder="&#128269Discover" >
                     <div class="search"></div>
@@ -51,12 +51,7 @@
 
                 </div>
             </section>
-            <section class="seller"> 
-                <div class="best-seller book">
-                    
-                </div>
-
-            </section>
+   
 
 
 
@@ -73,31 +68,31 @@
                 </div>
             </section>
             <section class="seller">
-                <h2 class="best-seller-h2">Best sellers</h2>
-                <div class="best-seller">
-                    <figure>
-                        <img class="product-img" src="./photos/1966495-APPLE-128GB-hero-560x560.avif" alt="iphome 16">
+                <h2 class="h2-hero">Best sellers</h2>
+                <div class="best-seller phones">
+                    <figure class="product-card" data-id="21">
+                        <a href="/htmls/product.html?id=21"><img class="product-img" src="/photos/1966495-APPLE-128GB-hero-560x560.avif" alt="iphome 16"></a>
                         <p class="brand">APPLE</p>
                         <p class="device-name">iPhone 16 5G 8GB/256GB </p>
                         <p class="price">$889</p>
                     </figure>
 
-                    <figure>
-                        <img class="product-img" src="/photos/xlarge_20250123122759_samsung_galaxy_s25_5g_dual_sim_12gb_256gb_mint_proparagelia-800x800.jpeg" alt="samsung galaxy s25">
+                    <figure class="product-card" data-id="22">
+                        <a href="/htmls/product.html?id=22"><img class="product-img" src="/photos/xlarge_20250123122759_samsung_galaxy_s25_5g_dual_sim_12gb_256gb_mint_proparagelia-800x800.jpeg" alt="samsung galaxy s25"></a>
                         <p class="brand">SAMSUNG</p>
                         <p class="device-name">SAMSUNG GALAXY S25 ULTRA</p>
                         <p class="price">$1199</p>
                     </figure>
 
-                    <figure>
-                        <img class="product-img 3" src="./photos/iphone_15_plus_blue_1.jpg" alt="iphone 15">
+                    <figure class="product-card" data-id="23">
+                        <a href="/htmls/product.html?id=23"><img class="product-img 3" src="https://c.scdn.gr/images/sku_main_images/045762/45762480/large_20230915151209_apple_iphone_15_5g.jpeg" alt="iphone 15"></a>
                         <p class="brand">APPLE</p>
                         <p class="device-name">iPhone 15 5G 6GB/512GB</p>
                         <p class="price">$779.99</p>
                     </figure>
 
-                    <figure>
-                        <img class="product-img" src="./photos/product-704128-main.jpg" alt="xiaomi redmi 13c">   
+                    <figure class="product-card" data-id="24">
+                        <a href="/htmls/product.html?id=24"><img class="product-img" src="/photos/product-704128-main.jpg" alt="xiaomi redmi 13c"></a>
                         <p class="brand">XIAOMI</p>
                         <p class="device-name">Redmi 13C NFC 4GB/128GB Navy Blue</p>
                         <p class="price">$159</p>
@@ -105,6 +100,7 @@
                     
                 </div>
             </section>
+        </main>
             <section class="newsletter">
                 <h3>Join our newsletter to receive special offers!</h3>
                 <div >
@@ -140,7 +136,7 @@
 
 
             </footer>
-        </main>
-        <script src="marketplace.js" ></script>
+       
+        
     </body>
 </html>

@@ -54,8 +54,9 @@ export function viewProducts(){
                 data-price="${product.price}">
             <img class="product-image review" src="${product.image}" alt="${product.title}">
             <p class="product-name review">${product.title}</p>
-            <p class="product-price review">$${product.price}</p>
             <p class="product-description review">${product.description}</p>
+            <p class="product-price review">$${product.price}</p>
+            
             <button class="add-to-wishlist-btn">&#9825;</button>
             <button class="add-to-cart">🛒Add to Cart</button>
         </figure>`;

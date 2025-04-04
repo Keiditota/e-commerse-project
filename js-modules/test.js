@@ -16,7 +16,7 @@ export function testTiming() {
               settingDiv.innerHTML = "";
           } else {
               settingDiv.innerHTML = `
-                  <p><a class="add-products search-suggestions" href="addproducts.html">+ Add Products</a></p>
+                  <p><a class="add-products search-suggestions" href="/htmls/addproducts.html">+ Add Products</a></p>
                   <p><a class="log-out search-suggestions">Log Out</a></p>
               `;
           }
