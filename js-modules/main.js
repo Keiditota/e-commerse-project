@@ -3,17 +3,15 @@ import { menuAndOptions } from './menu.js';
 import { cart } from './cart.js';
 import { wishList } from './wishlist.js';
 import { sendMail } from './sendMail.js';
-import { checkAdminStatus, login}from './login.js';
+import { checkAdminStatus}from './login.js';
 import { testTiming } from './test.js';;
 
 
-const productsDiv=document.querySelector(".best-seller.phones");
 
-
-if (window.location.pathname.endsWith("login.html")) {
+if (window.location.href.includes("login.html")) {
     import("./login.js")
         .then((module) => {
-            module.login(); // Call an initialization function if needed
+            module.login(); 
         })
         .catch((error) => console.error("Failed to load login.js:", error));
 }
@@ -29,44 +27,35 @@ if (window.location.href.includes("marketplace.html")) {
 if (window.location.href.includes("categories.html")) {
     import("./categories.js")
         .then((module) => {
-            module.categories(); // Call an initialization function if needed
+            module.categories(); 
         })
         .catch((error) => console.error("Failed to load categories.js:", error));
 }
 if(window.location.href.includes('product.html')){
     import("./previewProducts.js")
         .then((module) => {
-            module.viewProducts(); // Call an initialization function if needed
+            module.viewProducts(); 
         })
         .catch((error) => console.error("Failed to load products.js:", error));
 }
 
-// main.js
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all modules
-   // document.querySelector(".btn-menu").addEventListener("click",menuAndOptions);
     menuAndOptions();
     searchResults();
     cart();
-    //categories();
-    //hardCodedProducts();
     wishList();
-    //fetchBooks()
-    //fetchMarketplaceProducts()
     sendMail()
     checkAdminStatus()
     testTiming();
-    
-   
-   
-        
+  
 })          
 
-// Only add product-card redirect logic if NOT on wishlist/cart pages
+
 if (!window.location.href.includes('wishlist.html') && 
     !window.location.href.includes('cart.html')) {
     document.addEventListener("click", (event) => {
-        // Skip if clicking a button or link
+
         if (event.target.closest('button, a, .add-to-cart, .remove-from-cart, .add-to-wishlist-btn')) {
             return;
         }
